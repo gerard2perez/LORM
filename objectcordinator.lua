@@ -11,13 +11,12 @@ function ObjectCordinator.new(self,NS,DB)
     local lfs = require"lfs"
     require "sqlite3"
     lfs.chdir(system.pathForFile("",system.DocumentsDirectory))
-    if _G[DB] == nil then
-        _G[DB] = {
+    if _G["LORMOC"] == nil then
+        _G["LORMOC"] = {
             conexion = sqlite3.open( DB )
         }
     end
-
-    local OC = _G[DB]
+    local OC = _G["LORMOC"]
     --Enable FOREIGN KEYS
     OC.conexion:exec("PRAGMA foreign_keys = ON;")
 
@@ -75,7 +74,6 @@ function ObjectCordinator.new(self,NS,DB)
     local List = function(self)
         return self.__list
     end
-
     function OC.List(SchemaTable,entity,field,value)
         entity.__values[field] = {
             __self = entity,

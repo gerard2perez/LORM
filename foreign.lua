@@ -12,12 +12,12 @@ function manager.Schema(schema,fk,context)
             local exfk = schema.__FK[fk].ParentTable
             context[ schema.__FK[fk].RefTable ].__FK[exfk] = context[ schema.__FK[fk].RefTable ].__FK[exfk] or {}
             cloneTable(schema.__FK[fk],context[ schema.__FK[fk].RefTable ].__FK[exfk])
-            context[ schema.__FK[fk].RefTable ].__FK[exfk].FK =  schema.__name:sub(1,3)..schema.__FK[fk].RefTable:sub(1,1).."_"..schema.__FK[fk].RefColumn
+            context[ schema.__FK[fk].RefTable ].__FK[exfk].FK =  schema.__name..schema.__FK[fk].RefTable.."_"..schema.__FK[fk].RefColumn
             context[ schema.__FK[fk].RefTable ].__FK[exfk].Kind = FK.belongsTo
             schema.__FK[fk].Kind = fkType
             --context[ schema.__FK[fk].RefTable ].__schema[context[ schema.__FK[fk].RefTable ].__FK[exfk].FK] = {DataType=DataType.INTEGER,Extra="NOT NULL"}
             schema.__schema[fk] = {DataType=DataType.VIRTUAL}
-            schema.__FK[fk].RefFK = schema.__FK[fk].ParentTable:sub(1,3)..schema.__FK[fk].RefTable:sub(1,1)
+            schema.__FK[fk].RefFK = schema.__FK[fk].ParentTable..schema.__FK[fk].RefTable
                                 .."_"..schema.__FK[fk].RefColumn
 
             --context[ schema.__FK[fk].RefTable ].__schema[schema.__FK[fk].RefFK] = {DataType=DataType.INTEGER,EXTRA="NOT NULL"}
@@ -32,7 +32,7 @@ function manager.Schema(schema,fk,context)
             }
 
             schema.__schema[fk] = {DataType=DataType.VIRTUAL}
-            schema.__FK[fk].FK = schema.__FK[fk].ParentTable:sub(1,3)..schema.__FK[fk].RefTable:sub(1,1)
+            schema.__FK[fk].FK = schema.__FK[fk].ParentTable..schema.__FK[fk].RefTable
                                 .."_"..schema.__FK[fk].RefColumn
             --schema.__schema[schema.__FK[fk].FK] = {DataType=DataType.INTEGER,Extra="NOT NULL"}
         end,
@@ -46,11 +46,11 @@ function manager.Schema(schema,fk,context)
             local exfk = schema.__FK[fk].ParentTable
             context[ schema.__FK[fk].RefTable ].__FK[exfk] = context[ schema.__FK[fk].RefTable ].__FK[exfk] or {}
             cloneTable(schema.__FK[fk],context[ schema.__FK[fk].RefTable ].__FK[exfk])
-            context[ schema.__FK[fk].RefTable ].__FK[exfk].FK =  schema.__name:sub(1,3)..schema.__FK[fk].RefTable:sub(1,1).."_"..schema.__FK[fk].RefColumn
+            context[ schema.__FK[fk].RefTable ].__FK[exfk].FK =  schema.__name..schema.__FK[fk].RefTable.."_"..schema.__FK[fk].RefColumn
             schema.__FK[fk].Kind = fkType
             -- --context[ schema.__FK[fk].RefTable ].__schema[context[ schema.__FK[fk].RefTable ].__FK[exfk].FK] = {DataType=DataType.INTEGER,Extra="NOT NULL"}
             schema.__schema[fk] = {DataType=DataType.COLLECTION}
-            schema.__FK[fk].RefFK = schema.__FK[fk].ParentTable:sub(1,3)..schema.__FK[fk].RefTable:sub(1,1)
+            schema.__FK[fk].RefFK = schema.__FK[fk].ParentTable..schema.__FK[fk].RefTable
                                 .."_"..schema.__FK[fk].RefColumn
         end
     })

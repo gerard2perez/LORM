@@ -3,7 +3,7 @@ local RS = {}
 
 function SchemaBuilder(Context)
     if LORMVerbose.Schema then
-        print("***")
+        log_to_tab("Schema","***")
     end
     local namespace = Context.Namespace
     local Schema = Context.Database
@@ -64,8 +64,8 @@ function SchemaBuilder(Context)
     end
     --The Schema if fully built
     if LORMVerbose.Schema then
-        log(Context)
-        print("***")
+        log_to_tab("Schema",Context)
+        log_to_tab("Schema","***")
     end
     return Context
 end

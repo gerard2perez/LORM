@@ -102,6 +102,50 @@ function log ( t )
     end
     rawprint("")
 end
+
+function debug( t)
+   log_to_tab('debug',t) 
+end
+
+function log_to_tab (tab, t )
+    tab = "[TAB."..tab.."]"
+    local ident = '\t'
+    local print_r_cache={}
+
+    local function sub_print_r(t,indent)
+        if (print_r_cache[tostring(t)]) then
+            rawprint(tab..indent.."*"..tostring(t))
+        else
+            print_r_cache[tostring(t)]=true
+            if (type(t)=="table") then
+                for pos,val in rawpairs(t) do
+                    if (type(val)=="table") then
+                        format("%s%s[%s] => %s",tab,indent,pos, tostring(val):gsub("table: ","").." {")
+                        sub_print_r(val,indent..ident)
+                        rawprint(tab.. (indent).."}")
+                    elseif (type(val)=="string") then
+                        format("%s%s[%s] => '%s'",tab,indent,pos,val)
+                    else
+                        format("%s%s[%s] => %s",tab,indent,pos,tostring(val))
+                    end
+                end
+            else
+                rawprint(tab..indent..tostring(t))
+            end
+        end
+    end
+
+    if (type(t)=="table") then
+        rawprint(tab..tostring(t).." {")
+        sub_print_r(t,ident)
+        rawprint(tab.."}")
+    else
+        sub_print_r(t,'')
+    end
+    rawprint(tab.."")
+end
+
+
 function print ( t )
     local ident = '\t'
     local print_r_cache={}

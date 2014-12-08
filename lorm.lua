@@ -5,7 +5,9 @@
 -- License: MIT
 --------------------------------------------------------------------------------
 LORM = {ObjectCordinator={}}
+LORMConfig = LORMConfig or {RestSync={}}
 LORMConfig={
+    DeleteDb = LORMConfig.DeleteDb or false,
     AlwaysOverride = LORMConfig.AlwaysOverride or false,
     TimeStamps = LORMConfig.TimeStamps or true,
     RestSync ={
@@ -36,8 +38,18 @@ local EntityClass = relp("entityclass")
 function LORM:new(Context)
     local Database = Context.Database
     local NameSpace = Context.Namespace
+    
+    if LORMConfig.DeleteDb == true then
+        local deleted = os.remove(Database) or false
+        if deleted then
+            print(Database.." has been deleted.")
+        else
+            print(Database.." couldn't been deleted.")
+        end
+        
+    end
+    
     LORM.ObjectCordinator[NameSpace.."."..Database] = relp("objectcordinator"):new(NameSpace,Database)
-
     local OC = LORM.ObjectCordinator[NameSpace.."."..Database]
     local ctx = {_dbname,_conexion}
     local con = OC.conexion
@@ -54,8 +66,10 @@ function LORM:new(Context)
     --Build New Schema
     local Schema = SB(Context)
     MM(Schema,OldSchema,con)
+    _G[Database] = {}
     for table,class in pairs(Schema) do
-        _G[table] = EntityClass(table,class,OC)
+        _G[Database][table] = EntityClass(table,class,OC)
+        _G[table] = _G[Database][table]
     end
     return ctx
 end
