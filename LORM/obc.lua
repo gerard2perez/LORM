@@ -165,10 +165,12 @@ function ObjectCordinator.new(self,NS,DB)
     end
     function OC.toJSON(self,str)
         local SchemaTable = _G[self.__kind]
+        log(SchemaTable.__schema)
         local res = {}
         for p,v in pairs(self) do
-            if SchemaTable.__schema[p].DataType ~= DataType.VIRTUAL then
+            if SchemaTable.__schema[p].DataType ~= DataType.VIRTUAL and SchemaTable.__schema[p].DataType ~= DataType.COLLECTION then
                 res[p] = v
+                rawprint(p,SchemaTable.__schema[p].DataType)
             elseif SchemaTable.__FK[p].Kind == FK.belongsTo then
                 local a,b = self[p]:Primary()
                 res[SchemaTable.__FK[p].FK] = b
@@ -179,7 +181,9 @@ function ObjectCordinator.new(self,NS,DB)
         else
             local r={}
             for p,v in pairs(res) do
-                table.insert(r,string.format('"%s":"%s"',p,v))
+                if type(v) ~= "table" then
+                    table.insert(r,string.format('"%s":"%s"',p,v))
+                end
             end
             return string.format('{%s}',table.concat(r,","))
         end
@@ -511,6 +515,4 @@ function ObjectCordinator.new(self,NS,DB)
     end
     return OC
 end
-
-
 return ObjectCordinator

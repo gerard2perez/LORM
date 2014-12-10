@@ -34,6 +34,7 @@ local RM = relp("foreign")
 local SB = relp("schema")
 local MM = relp("migrations")
 local EntityClass = relp("entityclass")
+local obc = relp("obc")
 
 function LORM:new(Context)
     local Database = Context.Database
@@ -49,7 +50,8 @@ function LORM:new(Context)
         
     end
     
-    LORM.ObjectCordinator[NameSpace.."."..Database] = relp("objectcordinator"):new(NameSpace,Database)
+    LORM.ObjectCordinator[NameSpace.."."..Database] = obc:new(NameSpace,Database)
+    rawprint(NameSpace,Database)
     local OC = LORM.ObjectCordinator[NameSpace.."."..Database]
     local ctx = {_dbname,_conexion}
     local con = OC.conexion
@@ -71,6 +73,7 @@ function LORM:new(Context)
         _G[Database][table] = EntityClass(table,class,OC)
         _G[table] = _G[Database][table]
     end
+    collectgarbage("collect")
     return ctx
 end
 return LORM
