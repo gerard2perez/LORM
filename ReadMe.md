@@ -2,7 +2,7 @@ LORM
 ======
 LOR is and Object Relational Model bulit to be used with corona SDK projetcs
 
->I've been working on it aboit of two months, and I've make a lot of changes since my first version about a month ago (today is 15/Nov/2014). So if something doesn't works as is written here please make me know.
+>Se the wiki for more information ;)
 
 ##Features
 * Multi-Context management
