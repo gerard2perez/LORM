@@ -308,7 +308,7 @@ function ObjectCordinator.new(self,NS,DB)
                 if OC.conexion:exec( qry ) == 0 then
                     self.__status = entity_state.unchanged
                     if LORMConfig.TimeStamps ~= false and updaterecords ~= false then
-                        self.Updated = os.date("!%Y-%m-%dT%H:%M.%S00Z")
+                        self.Updated = os.date("!%Y-%m-%dT%H:%M%S")
                     end
                     return true
                 else

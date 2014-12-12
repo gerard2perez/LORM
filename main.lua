@@ -1,6 +1,3 @@
-log_to_tab=print
-log=print
-
 STB = require "storybuilder"
 STB.composer.recycleOnSceneChange = true
 function gout(stringinfo)
@@ -25,4 +22,3 @@ require "DataModel.EMMAContext"
 print(collectgarbage("count")*1024)
 print("Delta after requiring the model")
 STB.Go("View.splash")
-print("OK")
