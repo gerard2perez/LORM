@@ -388,7 +388,7 @@ function ObjectCordinator.new(self,NS,DB)
                         --self[p] = self[p]
                     --end
                 end
-                return SaveSelf
+                return SaveSelf()
 
             end,
             [entity_state.modified]=function()
